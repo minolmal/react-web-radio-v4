@@ -25,8 +25,8 @@ const SideBar = forwardRef<HTMLElement>((props, ref) => {
               }}
             />
           </div>
-          <button className="common-btn" onClick={() => toggleSidebar(false)}>
-            <FaTimes />
+          <button className="common-btn focus-text" onClick={() => toggleSidebar(false)}>
+            <FaTimes className='ico' />
           </button>
         </header>
 

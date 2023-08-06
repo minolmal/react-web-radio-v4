@@ -1,4 +1,3 @@
-import { MutableRefObject, Ref } from "react";
 import { Channel, tErrors, tSongs, tSortOrder, tSortParams } from "./channelTypes";
 
 export interface PlayerState {
@@ -9,7 +8,6 @@ export interface PlayerState {
   loading: boolean;
   sidebar: boolean;
   volume: number;
-  sidebarDrawerRef: Ref<HTMLElement>;
 
   // sidebar toggles
   sbActive: boolean;
@@ -53,7 +51,6 @@ export const initialState: PlayerState = {
   loading: false,
   sidebar: false,
   volume: 100,
-  sidebarDrawerRef: null,
   // sidebar toggles
   sbActive: false,
   sbVisible: false,

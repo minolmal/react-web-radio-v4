@@ -2,16 +2,15 @@
 import Link from "next/link";
 import React, { useRef } from "react";
 import "@/styles/app.scss";
-import ToggleButton from "@/components/ToggleButton";
 import MainContent from "@/components/MainContent";
 import Player from "@/components/Player";
 import SideBar from "@/components/SideBar";
 import useStore from "@/lib/store";
-import { FaHeadphones, FaGithub, FaCodepen } from "react-icons/fa";
+import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
 
 export default function Home(): React.ReactNode {
   const sidebarDrawer = useRef<HTMLElement>(null);
-  useStore((state) => (state.sidebarDrawerRef = sidebarDrawer));
+  const { toggleSidebar } = useStore();
 
   return (
     <>
@@ -21,7 +20,14 @@ export default function Home(): React.ReactNode {
             <FaHeadphones />
             <span> Soma FM Player</span>
           </h2>
-          <ToggleButton />
+          <button
+            className="text-nowrap common-btn focus-text"
+            onClick={() => {
+              toggleSidebar(true);
+              sidebarDrawer.current?.focus();
+            }}>
+            <FaBars />
+          </button>
         </header>
 
         <main className="player-content flex-row">
