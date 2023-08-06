@@ -3,7 +3,7 @@ html, body {
   display: block;
   position: relative;
   max-width: 100vw;
-  min-height: 100vh;
+  min-height: var( --height, 100vh );
 }
 html {
   overflow: hidden;
@@ -26,7 +26,7 @@ body {
     font-size: calc( #{$fontSize} - 4px );
   }
   @media #{$screenMedium} {
-    font-size: calc( #{$fontSize} - 2px );
+    font-size: calc( #{$fontSize} - 1px );
   }
   @media #{$screenLarge} {
     font-size: $fontSize;

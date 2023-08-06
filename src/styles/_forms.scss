@@ -70,6 +70,9 @@
   &:hover {
     background-color: darken( $colorBright, 20% );
   }
+  &:focus, &:active {
+    box-shadow: $focusBox;
+  }
 }
 .form-slider {
   display: flex;
@@ -94,5 +97,9 @@
     &::-webkit-slider-thumb { -webkit-appearance: none; @include sliderThumb; }
     &::-moz-range-thumb { @include sliderThumb; }
     &::-ms-thumb { @include sliderThumb; }
+    // focus
+    &:focus::-webkit-slider-thumb { box-shadow: $focusBox; }
+    &:focus::-moz-range-thumb { box-shadow: $focusBox; }
+    &:focus::-ms-thumb { box-shadow: $focusBox; }
   }
 }

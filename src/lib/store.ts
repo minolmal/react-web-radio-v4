@@ -1,61 +1,80 @@
 import { PlayerActions, PlayerState, initialState } from "@/interfaces/playerTypes";
 import { create } from "zustand";
 import utils from "@/util/utils";
+import { mountStoreDevtool } from "simple-zustand-devtools";
+import { useRef } from "react";
 
 interface IStore extends PlayerState, PlayerActions {}
 const useStore = create<IStore>()((set, get) => ({
   ...initialState,
-  channelsList() {
-    let list = this.channels.slice();
-    let search = this.searchText
-      .replace(/[^\w\s\-]+/g, "")
-      .replace(/[\r\s\t\n]+/g, "")
-      .trim();
+  // channelsList() {
+  //   let list = this.channels.slice();
+  //   let search = this.searchText
+  //     .replace(/[^\w\s\-]+/g, "")
+  //     .replace(/[\r\s\t\n]+/g, "")
+  //     .trim();
 
-    if (search && search.length > 1) {
-      list = utils.search(list, "title", search);
-    }
+  //   if (search && search.length > 1) {
+  //     list = utils.search(list, "title", search);
+  //   }
 
-    if (this.sortParam) {
-      list = utils.sort(list, this.sortParam, this.sortOrder, false);
-    }
+  //   if (this.sortParam) {
+  //     list = utils.sort(list, this.sortParam, this.sortOrder, false);
+  //   }
 
-    if (this.channel.id) {
-      list = list.map((i) => {
-        i.active = this.channel.id === i.id ? true : false;
-        return i;
-      });
+  //   if (this.channel.id) {
+  //     list = list.map((i) => {
+  //       i.active = this.channel.id === i.id ? true : false;
+  //       return i;
+  //     });
+  //   }
+  //   return list;
+  // },
+  // songsList() {
+  //   let list = this.songs.slice();
+  //   return list;
+  // },
+  // sortLabel() {
+  //   switch (this.sortParam) {
+  //     case "title":
+  //       return "Station Name";
+  //     case "listeners":
+  //       return "Listeners Count";
+  //     case "favorite":
+  //       return "Saved Favorites";
+  //     case "genre":
+  //       return "Music Genre";
+  //   }
+  // },
+  // canPlay() {
+  //   return this.channel.id && !this.loading ? true : false;
+  // },
+  // hasChannel() {
+  //   return this.channel.id ? true : false;
+  // },
+  // hasSongs() {
+  //   return this.songs.length ? true : false;
+  // },
+  // hasErrors() {
+  //   if (this.errors.support || this.errors.stream) return true;
+  //   if (this.errors.channels && !this.channels.length) return true;
+  //   return false;
+  // },
+  toggleSidebar(toggle) {
+    const state = typeof toggle === "boolean" ? toggle : false;
+    if (state) {
+      set({ sbActive: true, sbVisible: true });
+      // this.$refs.sidebarDrawer.focus();
+    } else {
+      set({ sbVisible: false });
+      setTimeout(() => {
+        set({ sbActive: false });
+      }, 500);
     }
-    return list;
   },
-  songsList() {
-    let list = this.songs.slice();
-    return list;
-  },
-  sortLabel() {
-    switch (this.sortParam) {
-      case "title":
-        return "Station Name";
-      case "listeners":
-        return "Listeners Count";
-      case "favorite":
-        return "Saved Favorites";
-      case "genre":
-        return "Music Genre";
-    }
-  },
-  canPlay() {
-    return this.channel.id && !this.loading ? true : false;
-  },
-  hasChannel() {
-    return this.channel.id ? true : false;
-  },
-  hasSongs() {
-    return this.songs.length ? true : false;
-  },
-  hasErrors() {
-    if (this.errors.support || this.errors.stream) return true;
-    if (this.errors.channels && !this.channels.length) return true;
-    return false;
-  },
+  toggleFavorite(_id, _toggle) {},
 }));
+
+if (process.env.NODE_ENV === "development") mountStoreDevtool("PlayerStore", useStore);
+
+export default useStore;

@@ -39,6 +39,31 @@
   padding: $padSpace;
   background-image: radial-gradient( ellipse at top left, rgba( black, 0.2 ) 0%, rgba( black, 0.02 ) 100% );
   border-radius: $lineJoin;
+  
+  .heading {
+    margin: 0 0 .5rem 0;
+  }
+}
+
+// hover state on text elements
+.hover-text {
+  &:hover {
+    color: lighten( $colorSecondary, 10% );
+  }
+}
+
+// focus state on text elements
+.focus-text {
+  &:focus, &:active {
+    text-shadow: $focusText;
+  }
+}
+
+// focus state on box elements
+.focus-box {
+  &:focus, &:active {
+    box-shadow: $focusBox;
+  }
 }
 
 // margin helpers

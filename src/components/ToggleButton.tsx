@@ -1,12 +1,16 @@
 "use client";
+import useStore from "@/lib/store";
 import React from "react";
 import { FaBars } from "react-icons/fa";
 
-interface ToggleButtonProps extends HTMLButtonElement {}
-
 const ToggleButton: React.FC = () => {
+  const { toggleSidebar } = useStore();
   return (
-    <button className="text-nowrap common-btn">
+    <button
+      className="text-nowrap common-btn focus-text"
+      onClick={() => {
+        toggleSidebar(true);
+      }}>
       <FaBars />
     </button>
   );

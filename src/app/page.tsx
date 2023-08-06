@@ -1,14 +1,18 @@
-import React from "react";
-import Image from "next/image";
-import { FaHeadphones, FaGithub, FaCodepen } from "react-icons/fa";
+"use client";
 import Link from "next/link";
+import React, { useRef } from "react";
+import "@/styles/app.scss";
 import ToggleButton from "@/components/ToggleButton";
 import MainContent from "@/components/MainContent";
 import Player from "@/components/Player";
 import SideBar from "@/components/SideBar";
-import "@/styles/app.scss";
+import useStore from "@/lib/store";
+import { FaHeadphones, FaGithub, FaCodepen } from "react-icons/fa";
 
 export default function Home(): React.ReactNode {
+  const sidebarDrawer = useRef<HTMLElement>(null);
+  useStore((state) => (state.sidebarDrawerRef = sidebarDrawer));
+
   return (
     <>
       <section className="player-layout">
@@ -47,7 +51,7 @@ export default function Home(): React.ReactNode {
         </footer>
       </section>
 
-      <SideBar />
+      <SideBar ref={sidebarDrawer} />
     </>
   );
 }
