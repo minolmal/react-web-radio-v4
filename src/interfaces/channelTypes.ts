@@ -1,3 +1,4 @@
+// type
 export interface Channel extends Object {
   [key: string]: any;
   id: string;
@@ -60,3 +61,12 @@ type tFavorites = {
 
 export type tSortParams = "title" | "listeners" | "favorite" | "genre";
 export type tSortOrder = "desc" | "asc";
+
+// favs ={
+//   ch idText,
+//   idx
+// }
+
+export interface IFavoritesArray {
+  [index: number]: string;
+}

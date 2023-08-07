@@ -1,4 +1,4 @@
-import { Channel, IErrors, tSongs, tSortOrder, tSortParams } from "./channelTypes";
+import { Channel, IErrors, IFavoritesArray, tSongs, tSortOrder, tSortParams } from "./channelTypes";
 
 export interface PlayerState {
   // toggles
@@ -19,7 +19,7 @@ export interface PlayerState {
   channel: Channel;
   songs: Array<tSongs>;
   track: {};
-  favorites: Array<Channel>;
+  favorites: Array<IFavoritesArray>;
   errors: IErrors;
 
   // timer stuff
@@ -77,8 +77,8 @@ export const initialState: PlayerState = {
 };
 
 export interface PlayerActions {
-  // channelsList: () => Channel[];
-  // songsList: () => tSongs[];
+  channelsList: () => Channel[];
+  songsList: () => tSongs[];
   // sortLabel: () => string;
   // canPlay: () => boolean;
   // hasChannel: () => boolean;
@@ -92,7 +92,7 @@ export interface PlayerActions {
   hasError: (key?: string) => any;
   flushErrors: () => void;
   // setupEvents: () => void;
-  // resetPlayer: () => void;
+  resetPlayer: () => void;
   // tryAgain: () => void;
   toggleSidebar: (toggle: boolean) => void;
   // initSidebar: () => void;
@@ -100,22 +100,22 @@ export interface PlayerActions {
   // loadSortOptions: () => void;
   // toggleSortOrder: () => void;
   // sortBy: (_param: tSortParams, _order: tSortOrder) => void;
-  // loadFavorites: () => void;
-  // saveFavorites: () => void;
+  loadFavorites: () => void;
+  saveFavorites: () => void;
   toggleFavorite: (id: string, toggle: boolean) => void;
   // setupAudio: () => void;
-  // closeAudio: () => void;
+  closeAudio: () => void;
   // setupCanvas
   // updateCanvas
   getChannels: (sidebar?: boolean) => void;
-  // getSongs: (_channel: Channel, _callback?: any) => void;
-  // isCurrentChannel: (_channel: Channel) => boolean;
-  // updateCurrentChannel: () => void;
+  getSongs: (channel: Channel, callback?: any) => void;
+  isCurrentChannel: (channel: Channel) => boolean;
+  updateCurrentChannel: () => void;
   // playAudioStream: (_stream: any) => void;
   // playChannel: (_channel: any) => void;
-  // selectChannel: (_channel: any) => void;
-  // setRoute: (_route: string) => void;
-  // applyRoute: (_route: string) => void;
+  selectChannel: (channel: Channel, play?: boolean) => void;
+  setRoute: (route: string) => void;
+  applyRoute: (route: string, sidebar?: boolean) => void;
   // onKeyboard: (_e: KeyboardEvent) => void;
   // startClock: () => void;
   // updatedClock: () => void;

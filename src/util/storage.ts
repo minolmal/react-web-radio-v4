@@ -32,7 +32,7 @@ const storage = {
     const json = window.localStorage.getItem(key) || "{}";
     const parsed: tStorage = JSON.parse(json) || {};
     const { time, data, expire } = parsed;
-    if (this._isExpired(time, expire)) this.deleteData(key);
+    // if (this._isExpired(time, expire)) this.deleteData(key); //FIXME: this line breaks loading from local storage
     return data;
   },
   /** remove saved data */

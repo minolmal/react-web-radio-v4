@@ -21,7 +21,21 @@ async function getSongs() {
 }
 
 const MainContent = (props: Props) => {
-  const { setError, hasError, clearError, flushErrors, errors } = useStore();
+  const {
+    setError,
+    hasError,
+    clearError,
+    flushErrors,
+    saveFavorites,
+    loadFavorites,
+    errors,
+    channels,
+    toggleFavorite,
+    favorites,
+    channelsList,
+    songsList,
+    getChannels,
+  } = useStore();
   return (
     <div className="flex-a">
       <section>
@@ -30,7 +44,10 @@ const MainContent = (props: Props) => {
           Get Data
         </button>
         <button className="cta-btn" onClick={getSongs}>
-          Get Data
+          Get Songs
+        </button>
+        <button className="cta-btn" onClick={() => getChannels(true)}>
+          Get Channels
         </button>
       </section>
       <section>
@@ -76,6 +93,34 @@ const MainContent = (props: Props) => {
             console.log("all errors", errors);
           }}>
           clear all errors
+        </button>
+      </section>
+      <section>
+        <h5>Favorites test</h5>
+        <button className="cta-btn" onClick={() => console.log(favorites)}>
+          show favs
+        </button>
+        <button className="cta-btn" onClick={() => loadFavorites()}>
+          load favs
+        </button>
+        <button className="cta-btn" onClick={() => toggleFavorite("7souls", true)}>
+          toggle favs
+        </button>
+        <button className="cta-btn" onClick={() => saveFavorites()}>
+          save favs
+        </button>
+      </section>
+      <section>
+        <h5>List data</h5>
+        <button
+          className="cta-btn"
+          onClick={() => {
+            console.log("channel list", channelsList());
+          }}>
+          Trigger Channel Listing
+        </button>
+        <button className="cta-btn" onClick={() => getSongs()}>
+          Trigger Song Listing
         </button>
       </section>
     </div>
