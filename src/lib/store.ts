@@ -3,6 +3,8 @@ import { create } from "zustand";
 import utils from "@/util/utils";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { useRef } from "react";
+import soma from "@/util/soma";
+import { IErrors } from "@/interfaces/channelTypes";
 
 interface IStore extends PlayerState, PlayerActions {}
 const useStore = create<IStore>()((set, get) => ({
@@ -64,7 +66,6 @@ const useStore = create<IStore>()((set, get) => ({
     const state = typeof toggle === "boolean" ? toggle : false;
     if (state) {
       set({ sbActive: true, sbVisible: true });
-      // this.$refs.sidebarDrawer.focus();
     } else {
       set({ sbVisible: false });
       setTimeout(() => {
@@ -72,7 +73,37 @@ const useStore = create<IStore>()((set, get) => ({
       }, 500);
     }
   },
-  toggleFavorite(_id, _toggle) {},
+  toggleFavorite(id, toggle) {},
+  getChannels(sidebar) {
+    soma.getChannels((_err, _channels) => {
+      // if (err) return
+    });
+  },
+  setupMaintenance() {},
+  setError(key, err) {
+    let errors = get().errors;
+    // let errors = Object.assign({}, get().errors);
+    errors[key] = String(err || "").trim();
+    if (err) console.warn(`ERROR(${key}):`, err);
+    set({ errors: errors });
+  },
+  clearError(key) {
+    let errors = get().errors;
+    delete errors[key];
+    set({ errors: errors });
+  },
+  hasError(key) {
+    return key && get().errors.hasOwnProperty(key);
+  },
+  flushErrors() {
+    let errors = get().errors;
+    for (const key in errors) {
+      if (Object.prototype.hasOwnProperty.call(errors, key)) {
+        delete errors[key];
+      }
+    }
+    set({ errors: errors });
+  },
 }));
 
 if (process.env.NODE_ENV === "development") mountStoreDevtool("PlayerStore", useStore);

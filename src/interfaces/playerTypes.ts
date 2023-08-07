@@ -1,4 +1,4 @@
-import { Channel, tErrors, tSongs, tSortOrder, tSortParams } from "./channelTypes";
+import { Channel, IErrors, tSongs, tSortOrder, tSortParams } from "./channelTypes";
 
 export interface PlayerState {
   // toggles
@@ -20,7 +20,7 @@ export interface PlayerState {
   songs: Array<tSongs>;
   track: {};
   favorites: Array<Channel>;
-  errors: tErrors;
+  errors: IErrors;
 
   // timer stuff
   timeStart: number;
@@ -61,7 +61,7 @@ export const initialState: PlayerState = {
   songs: [],
   track: {},
   favorites: [],
-  errors: {} as tErrors,
+  errors: {} as IErrors,
   // timer stuff
   timeStart: 0,
   timeDisplay: "00:00:00",
@@ -86,11 +86,11 @@ export interface PlayerActions {
   // hasErrors: () => boolean;
 
   // api
-  // setupMaintenance: () => void;
-  // setError: (_key: string, _err: string) => void;
-  // clearError: (_key: string) => void;
-  // hasError: (_key?: string) => any;
-  // flushErrors: () => void;
+  setupMaintenance: () => void;
+  setError: (key: string, err: string) => void;
+  clearError: (key: string) => void;
+  hasError: (key?: string) => any;
+  flushErrors: () => void;
   // setupEvents: () => void;
   // resetPlayer: () => void;
   // tryAgain: () => void;
@@ -102,12 +102,12 @@ export interface PlayerActions {
   // sortBy: (_param: tSortParams, _order: tSortOrder) => void;
   // loadFavorites: () => void;
   // saveFavorites: () => void;
-  toggleFavorite: (_id: string, _toggle: boolean) => void;
+  toggleFavorite: (id: string, toggle: boolean) => void;
   // setupAudio: () => void;
   // closeAudio: () => void;
   // setupCanvas
   // updateCanvas
-  // getChannels: (_sidebar?: boolean) => void;
+  getChannels: (sidebar?: boolean) => void;
   // getSongs: (_channel: Channel, _callback?: any) => void;
   // isCurrentChannel: (_channel: Channel) => boolean;
   // updateCurrentChannel: () => void;

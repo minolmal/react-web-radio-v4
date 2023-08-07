@@ -42,14 +42,14 @@ export type tSongs = {
   date: string;
 };
 
-export type tErrors = {
+export interface IErrors extends Object {
   [key: string]: any;
   key: string;
   err: any;
   support?: string;
   stream?: string;
   channels?: string;
-};
+}
 
 type tFavorites = {
   [key: string]: any;
