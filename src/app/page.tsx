@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
-import "@/styles/app.scss";
 import MainContent from "@/components/MainContent";
 import Player from "@/components/Player";
 import SideBar from "@/components/SideBar";

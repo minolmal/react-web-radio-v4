@@ -32,7 +32,7 @@ const ListItem: React.FC<Channel> = (props) => {
           <div className="player-stations-list-title text-bright text-clip">{props.title}</div>
           <div className="text-nowrap">
             <span className="text-secondary">
-              <FaHeadphones />
+              <FaHeadphones className="ico" />
               &nbsp; {toCommas(props.listeners, 0)} &nbsp;
             </span>
             <FavoriteButton id={props.id} active={props.favorite} />

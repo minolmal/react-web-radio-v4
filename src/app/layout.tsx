@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Assistant } from "next/font/google";
+import { IconContext } from "react-icons";
+
+import "@/styles/app.scss";
 
 const assistant = Assistant({ subsets: ["latin"] });
 
@@ -41,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             for more information on how to enable Javascript.
           </noscript>
         </div>
+
         <div className="app-wrap">
           <main className="player-wrap" style={{ opacity: 1 }}>
             <figure className="player-bg" />

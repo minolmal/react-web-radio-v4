@@ -28,11 +28,11 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ id, text, active }) => 
       <span>
         {activeState ? (
           <i className="ico text-primary fx fx-drop-in">
-            <FaHeart />
+            <FaHeart className="ico" />
           </i>
         ) : (
           <i className="ico fx fx-drop-in">
-            <FaRegHeart />
+            <FaRegHeart className="ico" />
           </i>
         )}
       </span>
