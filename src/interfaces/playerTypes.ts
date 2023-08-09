@@ -79,11 +79,11 @@ export const initialState: PlayerState = {
 export interface PlayerActions {
   channelsList: () => Channel[];
   songsList: () => tSongs[];
-  // sortLabel: () => string;
-  // canPlay: () => boolean;
-  // hasChannel: () => boolean;
-  // hasSongs: () => boolean;
-  // hasErrors: () => boolean;
+  sortLabel: () => string;
+  canPlay: () => boolean;
+  hasChannel: () => boolean;
+  hasSongs: () => boolean;
+  hasErrors: () => boolean;
 
   // api
   setupMaintenance: () => void;
@@ -112,7 +112,7 @@ export interface PlayerActions {
   isCurrentChannel: (channel: Channel) => boolean;
   updateCurrentChannel: () => void;
   // playAudioStream: (_stream: any) => void;
-  // playChannel: (_channel: any) => void;
+  playChannel: (channel: Channel) => void;
   selectChannel: (channel: Channel, play?: boolean) => void;
   setRoute: (route: string) => void;
   applyRoute: (route: string, sidebar?: boolean) => void;
