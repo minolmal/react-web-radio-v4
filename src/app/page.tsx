@@ -1,16 +1,28 @@
 "use client";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "@/styles/app.scss";
 import MainContent from "@/components/MainContent";
 import Player from "@/components/Player";
 import SideBar from "@/components/SideBar";
 import useStore from "@/lib/store";
 import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
+import usePlayerStore from "@/lib/store";
 
 export default function Home(): React.ReactNode {
   const sidebarDrawer = useRef<HTMLElement>(null);
-  const { toggleSidebar } = useStore();
+  const toggleSidebar = usePlayerStore((state) => state.toggleSidebar);
+  const { getChannels, loadFavorites, closeAudio } = useStore();
+
+  // useEffect(() => {
+  //   loadFavorites()
+  //   getChannels(true)
+
+  //   return () => {
+  //     closeAudio();
+  //   };
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>

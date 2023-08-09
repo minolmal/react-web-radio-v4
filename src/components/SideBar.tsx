@@ -1,10 +1,18 @@
 "use client";
 import useStore from "@/lib/store";
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
+import ListItem from "./ListItem";
 
 const SideBar = forwardRef<HTMLElement>((props, ref) => {
-  const { sbActive, sbVisible, toggleSidebar } = useStore();
+  const { sbActive, sbVisible, toggleSidebar, channelsList } = useStore();
+  const channelsListArray = channelsList();
+  useEffect(() => {
+    console.log("sidebar mounted");
+    return () => {
+      console.log("sidebar unmounted");
+    };
+  }, []);
 
   return (
     <section
@@ -26,11 +34,15 @@ const SideBar = forwardRef<HTMLElement>((props, ref) => {
             />
           </div>
           <button className="common-btn focus-text" onClick={() => toggleSidebar(false)}>
-            <FaTimes className='ico' />
+            <FaTimes className="ico" />
           </button>
         </header>
 
-        <ul className="player-stations-list"></ul>
+        <ul className="player-stations-list">
+          {channelsListArray.map((item) => (
+            <ListItem key={item.id} {...item} />
+          ))}
+        </ul>
 
         <footer className="player-stations-footer flex-row flex-middle flex-stretch">
           <div className="flex-1 push-right"></div>

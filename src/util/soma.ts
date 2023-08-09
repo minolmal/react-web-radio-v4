@@ -18,7 +18,7 @@ const soma = {
     return fetch(apiURL, { next: { revalidate: 3600 } }) // TODO:reduce revalidate in production
       .then((res) => res.json())
       .then((data) => {
-        console.log("data",data.channels);
+        // console.log("data",data.channels);
         const list = this._parseChannels(data.channels);
         if (!list.length) return callback(errorString, []);
         return callback(null, list);

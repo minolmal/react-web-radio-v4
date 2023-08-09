@@ -29,12 +29,14 @@ const MainContent = (props: Props) => {
     saveFavorites,
     loadFavorites,
     errors,
+    channel,
     channels,
     toggleFavorite,
     favorites,
     channelsList,
     songsList,
     getChannels,
+    updateCurrentChannel
   } = useStore();
   return (
     <div className="flex-a">
@@ -119,8 +121,11 @@ const MainContent = (props: Props) => {
           }}>
           Trigger Channel Listing
         </button>
-        <button className="cta-btn" onClick={() => getSongs()}>
-          Trigger Song Listing
+        <button className="cta-btn" onClick={() => updateCurrentChannel()}>
+          update Current Channel
+        </button>
+        <button className="cta-btn" onClick={()=>console.log(channel)}>
+          Channel
         </button>
       </section>
     </div>
