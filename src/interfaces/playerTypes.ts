@@ -76,10 +76,11 @@ export const initialState: PlayerState = {
   itv: null,
 };
 
+export type tSortLabel = "Station Name" | "Listeners Count" | "Saved Favorites" | "Music Genre";
 export interface PlayerActions {
   channelsList: () => Channel[];
   songsList: () => tSongs[];
-  sortLabel: () => string;
+  sortLabel: () => tSortLabel;
   canPlay: () => boolean;
   hasChannel: () => boolean;
   hasSongs: () => boolean;
@@ -91,15 +92,17 @@ export interface PlayerActions {
   clearError: (key: string) => void;
   hasError: (key?: string) => any;
   flushErrors: () => void;
-  // setupEvents: () => void;
+  setupEvents: () => void;
+  initPlayer: () => void;
   resetPlayer: () => void;
-  // tryAgain: () => void;
+  tryAgain: () => void;
   toggleSidebar: (toggle: boolean) => void;
-  // initSidebar: () => void;
-  // togglePlay: () => void;
-  // loadSortOptions: () => void;
-  // toggleSortOrder: () => void;
-  // sortBy: (_param: tSortParams, _order: tSortOrder) => void;
+  togglePlay: (e: Event) => void;
+  saveVolume: () => void;
+  loadVolume: () => void;
+  loadSortOptions: () => void;
+  toggleSortOrder: () => void;
+  sortBy: (param: tSortParams, order: tSortOrder) => void;
   loadFavorites: () => void;
   saveFavorites: () => void;
   toggleFavorite: (id: string, toggle: boolean) => void;
@@ -116,9 +119,13 @@ export interface PlayerActions {
   selectChannel: (channel: Channel, play?: boolean) => void;
   setRoute: (route: string) => void;
   applyRoute: (route: string, sidebar?: boolean) => void;
-  // onKeyboard: (_e: KeyboardEvent) => void;
-  // startClock: () => void;
-  // updatedClock: () => void;
-  // stopClock: () => void;
-  // clearTimers: () => void;
+  onKeyboard: (e: KeyboardEvent) => void;
+  onWaiting: (e: Event) => void;
+  onPlaying: () => void;
+  onEnded: () => void;
+  onError: (e: Event) => void;
+  startClock: () => void;
+  updatedClock: () => void;
+  stopClock: () => void;
+  clearTimers: () => void;
 }

@@ -108,6 +108,30 @@ const usePlayerStore = create<IStore>()(
         }
         set({ errors: errors }, false, "Flush Errors");
       },
+      setupEvents: () => {
+        const { applyRoute, onWaiting, onPlaying, onEnded, onError, onKeyboard } = get();
+        document.addEventListener("visibilitychange", (_e) => {
+          set(
+            { visible: document.visibilityState === "visible" },
+            false,
+            "Set Document Visibility"
+          );
+        });
+        window.addEventListener("hashchange", (_e) => applyRoute(window.location.hash));
+        window.addEventListener("keydown", onKeyboard);
+
+        audio.on("waiting", onWaiting);
+        audio.on("playing", onPlaying);
+        audio.on("ended", onEnded);
+        audio.on("error", onError);
+      },
+      initPlayer: () => {
+        setTimeout(() => {
+          // document.querySelector("#_spnr").style.display = "none";
+          // document.querySelector("#player-wrap").style.opacity = "1";
+          set({ init: true }, false, "Init Player");
+        }, 100);
+      },
       resetPlayer: () => {
         get().closeAudio();
         get().flushErrors();
@@ -119,6 +143,16 @@ const usePlayerStore = create<IStore>()(
           }
         }
         set({ channel: _channel, songs: [] }, false, "Reset Player");
+      },
+      tryAgain: () => {
+        const { hasError, flushErrors, playChannel, channel } = get();
+        if (hasError("support")) {
+          flushErrors();
+          setTimeout(() => audio.setupAudio(), 1); // TODO:check setupAudio
+        } else {
+          flushErrors();
+          playChannel(channel);
+        }
       },
       toggleSidebar: (toggle) => {
         const state = typeof toggle === "boolean" ? toggle : false;
@@ -137,6 +171,38 @@ const usePlayerStore = create<IStore>()(
             set({ sbActive: false }, false, "Send Sidebar to back");
           }, 500);
         }
+      },
+      togglePlay: (e) => {
+        const { loading, playing, closeAudio, playChannel, channel } = get();
+        e && e.preventDefault();
+        if (loading) return;
+        if (playing) return closeAudio();
+        playChannel(channel);
+      },
+      saveVolume: () => {
+        storage.setData("player_volume", get().volume);
+      },
+      loadVolume: () => {
+        const volume = parseInt(storage.getData("player_volume") as string) || 100;
+        set({ volume: volume }, false, "Load Volume from Local Storage");
+      },
+      loadSortOptions() {
+        const opts = storage.getData("sorting_data");
+        if (opts && opts.param) set({ sortParam: opts.param }, false, "Load sortParam");
+        if (opts && opts.order) set({ sortOrder: opts.order }, false, "Load sortOrder");
+      },
+      toggleSortOrder() {
+        set({ sortOrder: get().sortOrder === "asc" ? "desc" : "asc" }, false, "Toggle sortOrder");
+      },
+      sortBy(param, order) {
+        const { sortParam, toggleSortOrder } = get();
+        if (sortParam === param) {
+          toggleSortOrder();
+        } else {
+          set({ sortOrder: order || "asc" }, false, "Set sortOrder");
+        }
+        set({ sortParam: param }, false, "Set sortParam");
+        storage.setData("sorting_data", { param: sortParam, order: sortParam });
       },
       loadFavorites: () => {
         const favs = storage.getData("favorites_data");
@@ -271,6 +337,64 @@ const usePlayerStore = create<IStore>()(
         get().closeAudio();
         get().resetPlayer();
         get().toggleSidebar(sidebar);
+      },
+      onKeyboard: (e) => {
+        const { channel, togglePlay, toggleSidebar } = get();
+        // const k = e.key
+        if (e.key === " " && channel.id) return togglePlay(e);
+        if (e.key === "Enter") return toggleSidebar(true);
+        if (e.key === "Escape") return toggleSidebar(false);
+      },
+      onWaiting: (e) => {
+        const { sto, onError } = get();
+        if (sto) clearInterval(sto);
+        set({ sto: setTimeout(() => onError(e), 10000) });
+        set({ playing: false, loading: false }, false, "Player Waiting");
+      },
+      onPlaying: () => {
+        get().clearError("stream");
+        set({ playing: true, loading: false }, false, "Playing");
+      },
+      onEnded: () => {
+        set({ playing: false, loading: false }, false, "Player Ended");
+      },
+      onError: (_e) => {
+        get().closeAudio();
+        get().setError(
+          "stream",
+          `The selected stream (${
+            get().channel.title
+          }) could not load, or stopped loading due to network problems.`
+        );
+        set({ playing: false, loading: false }, false, "Player Error");
+      },
+      startClock() {
+        get().startClock();
+        set(
+          { timeStart: Date.now(), timeItv: setInterval(() => get().updatedClock(), 1000) },
+          false,
+          "Start Clock"
+        );
+        get().updatedClock();
+      },
+      updatedClock() {
+        let p = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+        let elapsed = (Date.now() - get().timeStart) / 1000;
+        let seconds = Math.floor(elapsed % 60);
+        let minutes = Math.floor((elapsed / 60) % 60);
+        let hours = Math.floor(elapsed / 3600);
+        // this.timeDisplay = p(hours) + ":" + p(minutes) + ":" + p(seconds);
+        set({ timeDisplay: `${p(hours)}:${p(minutes)}:${p(seconds)}` }, false, "Update Clock");
+      },
+      stopClock() {
+        const { timeItv } = get();
+        if (timeItv) clearInterval(timeItv);
+        set({ timeItv: null }, false, "Stop Clock");
+      },
+      clearTimers() {
+        const { sto, itv } = get();
+        if (sto) clearTimeout(sto);
+        if (itv) clearInterval(itv);
       },
     }),
     { name: "PlayerStore", enabled: enableDevTools }
