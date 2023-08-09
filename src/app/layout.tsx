@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Assistant } from "next/font/google";
-import { IconContext } from "react-icons";
 
 import "@/styles/app.scss";
 

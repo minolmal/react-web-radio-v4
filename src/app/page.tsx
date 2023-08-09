@@ -2,26 +2,42 @@
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import MainContent from "@/components/MainContent";
-import Player from "@/components/Player";
-import SideBar from "@/components/SideBar";
-import useStore from "@/lib/store";
+import Player from "@/components/Player/Player";
+import SideBar from "@/components/SideBar/SideBar";
 import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
 import usePlayerStore from "@/lib/store";
+import audio from "@/util/audio";
 
 export default function Home(): React.ReactNode {
   const sidebarDrawer = useRef<HTMLElement>(null);
   const toggleSidebar = usePlayerStore((state) => state.toggleSidebar);
-  const { getChannels, loadFavorites, closeAudio } = useStore();
+  const { volume, playing } = usePlayerStore((state) => ({
+    volume: state.volume,
+    playing: state.playing,
+  }));
+  const { startClock, stopClock } = usePlayerStore();
 
-  // useEffect(() => {
-  //   loadFavorites()
-  //   getChannels(true)
+  // const { loadSortOptions, loadFavorites, loadVolume, setupEvents, getChannels } = usePlayerStore();
 
-  //   return () => {
-  //     closeAudio();
-  //   };
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    // loadFavorites()
+    // getChannels(true)
+    console.log("app mounted");
+
+    return () => {
+      // closeAudio();
+      console.log("app unmounted");
+    };
+  }, []);
+
+  useEffect(() => {
+    audio.setVolume(volume);
+    if (playing) {
+      startClock();
+    } else {
+      stopClock();
+    }
+  }, [volume, playing, startClock, stopClock]);
 
   return (
     <>

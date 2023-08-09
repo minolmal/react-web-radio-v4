@@ -118,12 +118,12 @@ const usePlayerStore = create<IStore>()(
           );
         });
         window.addEventListener("hashchange", (_e) => applyRoute(window.location.hash));
-        window.addEventListener("keydown", onKeyboard);
+        window.addEventListener("keydown", (e) => onKeyboard(e));
 
-        audio.on("waiting", onWaiting);
-        audio.on("playing", onPlaying);
-        audio.on("ended", onEnded);
-        audio.on("error", onError);
+        audio.on("waiting", (e: any) => onWaiting(e));
+        audio.on("playing", (e: any) => onPlaying(e));
+        audio.on("ended", (e: any) => onEnded(e));
+        audio.on("error", (e: any) => onError(e));
       },
       initPlayer: () => {
         setTimeout(() => {

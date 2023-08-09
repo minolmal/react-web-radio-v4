@@ -1,4 +1,5 @@
 import { Channel, IErrors, IFavoritesArray, tSongs, tSortOrder, tSortParams } from "./channelTypes";
+import React from "react";
 
 export interface PlayerState {
   // toggles
@@ -97,7 +98,7 @@ export interface PlayerActions {
   resetPlayer: () => void;
   tryAgain: () => void;
   toggleSidebar: (toggle: boolean) => void;
-  togglePlay: (e: Event) => void;
+  togglePlay: (e: any) => void;
   saveVolume: () => void;
   loadVolume: () => void;
   loadSortOptions: () => void;
@@ -119,11 +120,11 @@ export interface PlayerActions {
   selectChannel: (channel: Channel, play?: boolean) => void;
   setRoute: (route: string) => void;
   applyRoute: (route: string, sidebar?: boolean) => void;
-  onKeyboard: (e: KeyboardEvent) => void;
-  onWaiting: (e: Event) => void;
-  onPlaying: () => void;
-  onEnded: () => void;
-  onError: (e: Event) => void;
+  onKeyboard: (e: any) => void;
+  onWaiting: (e: any) => void;
+  onPlaying: (e: any) => void;
+  onEnded: (e: any) => void;
+  onError: (e: any) => void;
   startClock: () => void;
   updatedClock: () => void;
   stopClock: () => void;
