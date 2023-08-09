@@ -1,15 +1,15 @@
-import { PlayerActions, PlayerState, initialState } from "@/interfaces/playerTypes";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
+import { PlayerActions, PlayerState, initialState } from "@/interfaces/playerTypes";
 import soma from "@/util/soma";
 import storage from "@/util/storage";
 import utils from "@/util/utils";
 import audio from "@/util/audio";
-import { devtools } from "zustand/middleware";
 
 let enableDevTools = process.env.NODE_ENV === "production" ? false : true;
 
 interface IStore extends PlayerState, PlayerActions {}
-const useStore = create<IStore>()(
+const usePlayerStore = create<IStore>()(
   devtools(
     (set, get) => ({
       ...initialState,
@@ -277,4 +277,4 @@ const useStore = create<IStore>()(
   )
 );
 
-export default useStore;
+export default usePlayerStore;
