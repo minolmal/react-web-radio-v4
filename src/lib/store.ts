@@ -349,7 +349,7 @@ const usePlayerStore = create<IStore>()(
         const { sto, onError } = get();
         if (sto) clearInterval(sto);
         set({ sto: setTimeout(() => onError(e), 10000) });
-        set({ playing: false, loading: false }, false, "Player Waiting");
+        set({ playing: false, loading: true }, false, "Player Waiting");
       },
       onPlaying: () => {
         get().clearError("stream");

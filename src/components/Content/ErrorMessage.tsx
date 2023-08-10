@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import usePlayerStore from "@/lib/store";
 import { BiSolidError } from "react-icons/bi";

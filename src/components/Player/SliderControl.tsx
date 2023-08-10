@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { FaVolumeDown, FaVolumeOff, FaVolumeUp } from "react-icons/fa";
 
 const SliderControl = () => {
-  const volume = usePlayerStore((state) => state.volume);
-  const saveVolume = usePlayerStore((state) => state.saveVolume);
+  const { volume, saveVolume } = usePlayerStore((state) => ({
+    volume: state.volume,
+    saveVolume: state.saveVolume,
+  }));
   const [sliderValue, setSliderValue] = useState(volume);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { FaHeadphones } from "react-icons/fa";
 
 const GreetMessage: React.FC = () => {
   const toggleSidebar = usePlayerStore((state) => state.toggleSidebar);
-  const { getChannels } = usePlayerStore();
+  const getChannels = usePlayerStore((state) => state.getChannels);
   return (
     <section className="player-greet">
       <div className="fx fx-slide-left push-bottom">

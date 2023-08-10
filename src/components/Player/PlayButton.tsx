@@ -5,9 +5,11 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { FaPlay, FaStop } from "react-icons/fa";
 
 const PlayButton: React.FC = () => {
-  const togglePlay = usePlayerStore((state) => state.togglePlay);
-  const loading = usePlayerStore((state) => state.loading);
-  const playing = usePlayerStore((state) => state.playing);
+  const { loading, playing, togglePlay } = usePlayerStore((state) => ({
+    loading: state.loading,
+    playing: state.playing,
+    togglePlay: state.togglePlay,
+  }));
 
   return (
     <button className="common-btn focus-text" type="button" onClick={(e) => togglePlay(e)}>

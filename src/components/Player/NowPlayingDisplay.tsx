@@ -3,9 +3,11 @@ import usePlayerStore from "@/lib/store";
 import React from "react";
 
 const NowPlayingDisplay: React.FC = () => {
-  const timeDisplay = usePlayerStore((state) => state.timeDisplay);
-  const channel = usePlayerStore((state) => state.channel);
-  const hasChannel = usePlayerStore((state) => state.hasChannel);
+  const { channel, timeDisplay, hasChannel } = usePlayerStore((state) => ({
+    channel: state.channel,
+    timeDisplay: state.timeDisplay,
+    hasChannel: state.hasChannel,
+  }));
   return (
     <div className="text-clip push-left">
       <span>{timeDisplay}</span>

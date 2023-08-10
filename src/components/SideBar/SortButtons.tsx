@@ -1,15 +1,17 @@
+"use client";
 import usePlayerStore from "@/lib/store";
 import React from "react";
 import { FaHeadphones, FaHeart, FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 import { LuRadioTower } from "react-icons/lu";
 import { BsCollectionPlay } from "react-icons/bs";
 
-type Props = {};
-
-const SortButtons = (props: Props) => {
-  const { sortLabel } = usePlayerStore();
-  const { sortOrder } = usePlayerStore();
-  const { sortBy, toggleSortOrder } = usePlayerStore();
+const SortButtons: React.FC = () => {
+  const { sortLabel, sortOrder, sortBy, toggleSortOrder } = usePlayerStore((state) => ({
+    sortLabel: state.sortLabel,
+    sortOrder: state.sortOrder,
+    sortBy: state.sortBy,
+    toggleSortOrder: state.toggleSortOrder,
+  }));
   return (
     <div className="flex-1 push-right">
       <span onClick={() => toggleSortOrder()} className="ico clickable">

@@ -1,6 +1,7 @@
 "use client";
 import { Channel } from "@/interfaces/channelTypes";
 import useStore from "@/lib/store";
+import audio from "@/util/audio";
 import soma from "@/util/soma";
 import React from "react";
 
@@ -37,6 +38,7 @@ const MainContent = (props: Props) => {
     songsList,
     getChannels,
     updateCurrentChannel,
+    playChannel,
   } = useStore();
   return (
     <div className="flex-a">
@@ -114,7 +116,7 @@ const MainContent = (props: Props) => {
           save favs
         </button>
       </section>
-      
+
       <section>
         <h5>List data</h5>
         <button
@@ -128,6 +130,25 @@ const MainContent = (props: Props) => {
           update Current Channel
         </button>
         <button className="cta-btn" onClick={() => console.log(channel)}>
+          Channel
+        </button>
+      </section>
+
+      <section>
+        <h5>Audio Test</h5>
+        <button
+          className="cta-btn"
+          onClick={() => {
+            audio.setupAudio();
+          }}>
+          setup Audio
+        </button>
+        <button
+          className="cta-btn"
+          onClick={() => audio.playSource("https://ice1.somafm.com/groovesalad-128-mp3")}>
+          play sources
+        </button>
+        <button className="cta-btn" onClick={() => playChannel(channel)}>
           Channel
         </button>
       </section>
