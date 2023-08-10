@@ -20,9 +20,6 @@ const GreetMessage: React.FC = () => {
           <FaHeadphones className="ico" />
           &nbsp; View Stations
         </button>
-        <button className="cta-btn focus-box" type="button" onClick={() => getChannels(true)}>
-          get ch
-        </button>
       </div>
     </section>
   );
