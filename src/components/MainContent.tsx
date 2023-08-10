@@ -36,7 +36,7 @@ const MainContent = (props: Props) => {
     channelsList,
     songsList,
     getChannels,
-    updateCurrentChannel
+    updateCurrentChannel,
   } = useStore();
   return (
     <div className="flex-a">
@@ -52,6 +52,7 @@ const MainContent = (props: Props) => {
           Get Channels
         </button>
       </section>
+
       <section>
         <h5>Test Errors</h5>
         <button
@@ -97,6 +98,7 @@ const MainContent = (props: Props) => {
           clear all errors
         </button>
       </section>
+
       <section>
         <h5>Favorites test</h5>
         <button className="cta-btn" onClick={() => console.log(favorites)}>
@@ -112,6 +114,7 @@ const MainContent = (props: Props) => {
           save favs
         </button>
       </section>
+      
       <section>
         <h5>List data</h5>
         <button
@@ -124,7 +127,7 @@ const MainContent = (props: Props) => {
         <button className="cta-btn" onClick={() => updateCurrentChannel()}>
           update Current Channel
         </button>
-        <button className="cta-btn" onClick={()=>console.log(channel)}>
+        <button className="cta-btn" onClick={() => console.log(channel)}>
           Channel
         </button>
       </section>

@@ -1,34 +1,66 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useRef } from "react";
-import MainContent from "@/components/MainContent";
+import Link from "next/link";
+import audio from "@/util/audio";
 import Player from "@/components/Player/Player";
 import SideBar from "@/components/SideBar/SideBar";
-import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
+import ChannelInfo from "@/components/Content/ChannelInfo";
+import MainContent from "@/components/MainContent";
+import ErrorMessage from "@/components/Content/ErrorMessage";
+import GreetMessage from "@/components/Content/GreetMessage";
 import usePlayerStore from "@/lib/store";
-import audio from "@/util/audio";
+
+import { IconContext } from "react-icons";
+import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
 
 export default function Home(): React.ReactNode {
   const sidebarDrawer = useRef<HTMLElement>(null);
   const toggleSidebar = usePlayerStore((state) => state.toggleSidebar);
-  const { volume, playing } = usePlayerStore((state) => ({
+  const { volume, playing, channel } = usePlayerStore((state) => ({
     volume: state.volume,
     playing: state.playing,
+    channel: state.channel,
   }));
-  const { startClock, stopClock } = usePlayerStore();
+  const { startClock, stopClock, hasChannel, hasErrors } = usePlayerStore();
 
-  // const { loadSortOptions, loadFavorites, loadVolume, setupEvents, getChannels } = usePlayerStore();
+  const {
+    loadSortOptions,
+    loadFavorites,
+    loadVolume,
+    setupEvents,
+    getChannels,
+    setupMaintenance,
+    initPlayer,
+    closeAudio,
+    clearTimers,
+  } = usePlayerStore();
 
   useEffect(() => {
-    // loadFavorites()
-    // getChannels(true)
     console.log("app mounted");
+    loadSortOptions();
+    loadFavorites();
+    loadVolume();
+    setupEvents();
+    getChannels(true);
+    setupMaintenance();
+    initPlayer();
 
     return () => {
-      // closeAudio();
       console.log("app unmounted");
+      closeAudio();
+      clearTimers();
     };
-  }, []);
+  }, [
+    clearTimers,
+    closeAudio,
+    getChannels,
+    initPlayer,
+    loadFavorites,
+    loadSortOptions,
+    loadVolume,
+    setupEvents,
+    setupMaintenance,
+  ]);
 
   useEffect(() => {
     audio.setVolume(volume);
@@ -41,6 +73,7 @@ export default function Home(): React.ReactNode {
 
   return (
     <>
+    <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <section className="player-layout">
         <header className="player-header flex-row flex-middle flex-stretch">
           <h2 className="text-clip flex-1">
@@ -58,7 +91,10 @@ export default function Home(): React.ReactNode {
         </header>
 
         <main className="player-content flex-row">
-          <MainContent />
+          {/* <MainContent /> */}
+          {!hasChannel() && !hasErrors() && <GreetMessage />}
+          {hasChannel() && !hasErrors() && <ChannelInfo channel={channel} />}
+          {hasErrors() && <ErrorMessage />}
         </main>
 
         <footer className="player-footer flex-row flex-middle flex-space">
@@ -85,6 +121,7 @@ export default function Home(): React.ReactNode {
       </section>
 
       <SideBar ref={sidebarDrawer} />
+      </IconContext.Provider>
     </>
   );
 }
