@@ -23,7 +23,6 @@ This is a [﻿Next.js](https://nextjs.org/) project bootstrapped with [﻿create
             - [x] Save Fav list
     - [x] Main Content
     - [x] Footer
----
 
 ## Refactor to React best practices
 - [ ] Utils
