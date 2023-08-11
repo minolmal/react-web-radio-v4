@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import usePlayerStore from "@/lib/store";
 import { BiLoaderAlt } from "react-icons/bi";
 import { FaPlay, FaStop } from "react-icons/fa";

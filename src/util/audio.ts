@@ -10,7 +10,8 @@ const audio = {
   _source: null as unknown as MediaElementAudioSourceNode,
   _gain: null as unknown as GainNode,
   _analyser: null as unknown as AnalyserNode,
-  _freq: null as unknown as Uint8Array,
+  // _freq: null as unknown as Uint8Array,
+  _freq: new Uint8Array(32),
   _hasFreq: false,
   _counter: 0,
   _events: {} as IEvents,
@@ -29,7 +30,6 @@ const audio = {
     this._source.connect(this._analyser);
     this._source.connect(this._gain);
     this._gain.connect(this._context.destination);
-    this._freq = new Uint8Array(32);
 
     this._audio.addEventListener("canplay", () => {
       this._freq = new Uint8Array(this._analyser.frequencyBinCount);
@@ -41,7 +41,7 @@ const audio = {
     });
   },
   /** add event listeners to the audio api */
-  on(event: keyof IEvents, callback: any) {
+  on(event: string, callback: any) {
     if (event && typeof callback === "function") {
       this._events[event] = callback;
     }
@@ -79,7 +79,6 @@ const audio = {
   /**  set audio volume */
   setVolume(volume: number) {
     if (!this._gain) return;
-    // volume = parseFloat( volume ) || 0;
     volume = volume > 1 ? volume / 100 : volume;
     volume = volume > 1 ? 1 : volume;
     volume = volume < 0 ? 0 : volume;
@@ -95,7 +94,6 @@ const audio = {
   },
   /**  play audio source url*/
   playSource(source: any) {
-    if (!this._audio) return;
     this.setupAudio();
     this.stopAudio();
 

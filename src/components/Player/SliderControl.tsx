@@ -1,5 +1,6 @@
 "use client";
 import usePlayerStore from "@/lib/store";
+import audio from "@/util/audio";
 import React, { useEffect, useState } from "react";
 import { FaVolumeDown, FaVolumeOff, FaVolumeUp } from "react-icons/fa";
 
@@ -11,6 +12,7 @@ const SliderControl = () => {
   const [sliderValue, setSliderValue] = useState(volume);
 
   useEffect(() => {
+    audio.setVolume(sliderValue);
     saveVolume();
   }, [saveVolume, sliderValue]);
 

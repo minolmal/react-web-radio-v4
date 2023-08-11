@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import audio from "@/util/audio";
 import Player from "@/components/Player/Player";
 import SideBar from "@/components/SideBar/SideBar";
 import ChannelInfo from "@/components/Content/ChannelInfo";
@@ -15,13 +14,12 @@ import { FaHeadphones, FaGithub, FaCodepen, FaBars } from "react-icons/fa";
 
 export default function Home(): React.ReactNode {
   const sidebarDrawer = useRef<HTMLElement>(null);
-  const toggleSidebar = usePlayerStore((state) => state.toggleSidebar);
-  const { volume, playing, channel } = usePlayerStore((state) => ({
-    volume: state.volume,
-    playing: state.playing,
+  const { channel, toggleSidebar, hasChannel, hasErrors } = usePlayerStore((state) => ({
     channel: state.channel,
+    toggleSidebar: state.toggleSidebar,
+    hasChannel: state.hasChannel,
+    hasErrors: state.hasErrors,
   }));
-  const { startClock, stopClock, hasChannel, hasErrors } = usePlayerStore();
 
   const {
     loadSortOptions,
@@ -61,15 +59,6 @@ export default function Home(): React.ReactNode {
     setupEvents,
     setupMaintenance,
   ]);
-
-  useEffect(() => {
-    audio.setVolume(volume);
-    if (playing) {
-      startClock();
-    } else {
-      stopClock();
-    }
-  }, [volume, playing, startClock, stopClock]);
 
   return (
     <>

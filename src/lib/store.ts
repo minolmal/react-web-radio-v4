@@ -369,7 +369,7 @@ const usePlayerStore = create<IStore>()(
         set({ playing: false, loading: false }, false, "Player Error");
       },
       startClock() {
-        get().startClock();
+        get().stopClock();
         set(
           { timeStart: Date.now(), timeItv: setInterval(() => get().updatedClock(), 1000) },
           false,
@@ -383,7 +383,6 @@ const usePlayerStore = create<IStore>()(
         let seconds = Math.floor(elapsed % 60);
         let minutes = Math.floor((elapsed / 60) % 60);
         let hours = Math.floor(elapsed / 3600);
-        // this.timeDisplay = p(hours) + ":" + p(minutes) + ":" + p(seconds);
         set({ timeDisplay: `${p(hours)}:${p(minutes)}:${p(seconds)}` }, false, "Update Clock");
       },
       stopClock() {
