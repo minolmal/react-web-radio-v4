@@ -44,13 +44,22 @@ export type tSongs = {
 };
 
 export interface IErrors extends Object {
-  [key: string]: any;
+  [index: string]: any;
   key: string;
   err: any;
   support?: string;
   stream?: string;
   channels?: string;
 }
+
+// export type tErrors = {
+//   [index: number]: any;
+//   key: string;
+//   err: unknown;
+//   support?: string;
+//   stream?: string;
+//   channels?: string;
+// } & Object;
 
 type tFavorites = {
   [key: string]: any;
@@ -61,11 +70,6 @@ type tFavorites = {
 
 export type tSortParams = "title" | "listeners" | "favorite" | "genre";
 export type tSortOrder = "desc" | "asc";
-
-// favs ={
-//   ch idText,
-//   idx
-// }
 
 export interface IFavoritesArray {
   [index: number]: string;

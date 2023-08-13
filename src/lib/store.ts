@@ -120,10 +120,10 @@ const usePlayerStore = create<IStore>()(
         window.addEventListener("hashchange", (_e) => applyRoute(window.location.hash));
         window.addEventListener("keydown", (e) => onKeyboard(e));
 
-        audio.on("waiting", (e: any) => onWaiting(e));
-        audio.on("playing", (e: any) => onPlaying(e));
-        audio.on("ended", (e: any) => onEnded(e));
-        audio.on("error", (e: any) => onError(e));
+        audio.on("waiting", onWaiting);
+        audio.on("playing", onPlaying);
+        audio.on("ended", onEnded);
+        audio.on("error", onError);
       },
       initPlayer: () => {
         setTimeout(() => {
@@ -345,10 +345,10 @@ const usePlayerStore = create<IStore>()(
         if (e.key === "Enter") return toggleSidebar(true);
         if (e.key === "Escape") return toggleSidebar(false);
       },
-      onWaiting: (e) => {
+      onWaiting: () => {
         const { sto, onError } = get();
         if (sto) clearInterval(sto);
-        set({ sto: setTimeout(() => onError(e), 10000) });
+        set({ sto: setTimeout(() => onError(), 10000) });
         set({ playing: false, loading: true }, false, "Player Waiting");
       },
       onPlaying: () => {
@@ -358,7 +358,7 @@ const usePlayerStore = create<IStore>()(
       onEnded: () => {
         set({ playing: false, loading: false }, false, "Player Ended");
       },
-      onError: (_e) => {
+      onError: () => {
         get().closeAudio();
         get().setError(
           "stream",

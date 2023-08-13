@@ -121,10 +121,10 @@ export interface PlayerActions {
   setRoute: (route: string) => void;
   applyRoute: (route: string, sidebar?: boolean) => void;
   onKeyboard: (e: any) => void;
-  onWaiting: (e: any) => void;
-  onPlaying: (e: any) => void;
-  onEnded: (e: any) => void;
-  onError: (e: any) => void;
+  onWaiting: () => void;
+  onPlaying: () => void;
+  onEnded: () => void;
+  onError: () => void;
   startClock: () => void;
   updatedClock: () => void;
   stopClock: () => void;

@@ -1,27 +1,24 @@
-interface IEvents extends Object {
-  [key: string]: any;
-}
+type tEvents = "waiting" | "playing" | "ended" | "stalled" | "error";
 /**
  * Audio handler object
  */
 const audio = {
-  _context: null as unknown as AudioContext,
-  _audio: null as unknown as HTMLAudioElement,
+  _context: new AudioContext(),
+  _audio: new Audio(),
   _source: null as unknown as MediaElementAudioSourceNode,
   _gain: null as unknown as GainNode,
   _analyser: null as unknown as AnalyserNode,
-  // _freq: null as unknown as Uint8Array,
   _freq: new Uint8Array(32),
   _hasFreq: false,
   _counter: 0,
-  _events: {} as IEvents,
+  _events: new Map<tEvents, VoidFunction>(),
 
   /** setup audio routing*/
   setupAudio() {
     if (this._audio && this._context) return;
 
-    this._audio = new Audio();
-    this._context = new window.AudioContext();
+    // this._audio = new Audio();
+    // this._context = new window.AudioContext();
     this._source = this._context.createMediaElementSource(this._audio);
     this._analyser = this._context.createAnalyser();
     this._gain = this._context.createGain();
@@ -36,20 +33,20 @@ const audio = {
       this._audio.play();
     });
 
-    ["waiting", "playing", "ended", "stalled", "error"].forEach((event) => {
-      this._audio.addEventListener(event, (e) => this.emit(event, e));
-    });
+    for (const [key, value] of this._events) {
+      this._audio.addEventListener(key, value);
+    }
   },
   /** add event listeners to the audio api */
-  on(event: string, callback: any) {
+  on(event: tEvents, callback: VoidFunction) {
     if (event && typeof callback === "function") {
-      this._events[event] = callback;
+      this._events.set(event, callback);
     }
   },
   /** emit saved audio event */
-  emit(event: string, data: any) {
-    if (event && this._events.hasOwnProperty(event)) {
-      this._events[event](data);
+  emit(event: tEvents, data: VoidFunction) {
+    if (event && this._events.has(event)) {
+      this._events.get(event)?.call(data);
     }
   },
   /**  update and return analyser frequency value (0-1) to control animations */
@@ -61,9 +58,7 @@ const audio = {
     let _freq = Math.floor(this._freq[4] | 0) / 255;
 
     // indicate that a freq value can be read
-    if (!this._hasFreq && _freq) {
-      this._hasFreq = true;
-    }
+    if (!this._hasFreq && _freq) this._hasFreq = true;
 
     // frequency data available
     if (this._hasFreq) return _freq;
@@ -98,9 +93,7 @@ const audio = {
     this.stopAudio();
 
     if (this._context.state === "suspended") {
-      this._context.resume().then(() => {
-        console.log("Audio context has been resumed");
-      });
+      this._context.resume().then(() => console.log("Audio context has been resumed"));
     }
 
     this._audio.src = String(source || "") + "?x=" + Date.now();
@@ -108,22 +101,6 @@ const audio = {
     this._audio.crossOrigin = "anonymous";
     this._audio.autoplay = false;
     this._audio.load();
-  },
-
-  /** get audio context state */
-  getState(state: string) {
-    if (!this._context) return "";
-    if (state) return this._context.state === state;
-    return this._context.state;
-  },
-
-  /**  resume suspended audio in chrome*/
-  resumeAudio(callback?: ((value: void) => void | PromiseLike<void>) | null | undefined) {
-    if (!this._context) return;
-    this._context
-      .resume()
-      .then(callback)
-      .catch((e: Error) => console.log(e.message));
   },
 };
 
