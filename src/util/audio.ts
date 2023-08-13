@@ -3,8 +3,8 @@ type tEvents = "waiting" | "playing" | "ended" | "stalled" | "error";
  * Audio handler object
  */
 const audio = {
-  _context: new AudioContext(),
-  _audio: new Audio(),
+  _audio: null as unknown as HTMLAudioElement,
+  _context: null as unknown as AudioContext,
   _source: null as unknown as MediaElementAudioSourceNode,
   _gain: null as unknown as GainNode,
   _analyser: null as unknown as AnalyserNode,
@@ -17,8 +17,8 @@ const audio = {
   setupAudio() {
     if (this._audio && this._context) return;
 
-    // this._audio = new Audio();
-    // this._context = new window.AudioContext();
+    this._audio = new Audio();
+    this._context = new window.AudioContext();
     this._source = this._context.createMediaElementSource(this._audio);
     this._analyser = this._context.createAnalyser();
     this._gain = this._context.createGain();
