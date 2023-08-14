@@ -11,11 +11,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "api.somafm.com",
-        port: "",
-        pathname: "/logos/256/**",
       },
     ],
   },
 };
 
 module.exports = nextConfig;
+
+// https://api.somafm.com/img/7soul120.png
