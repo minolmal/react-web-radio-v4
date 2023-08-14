@@ -19,7 +19,7 @@ export interface PlayerState {
   // | Record<string, never>
   channel: Channel;
   songs: Array<tSongs>;
-  track: {};
+  track: tSongs;
   favorites: Array<IFavoritesArray>;
   errors: IErrors;
 
@@ -60,7 +60,7 @@ export const initialState: PlayerState = {
   channels: [],
   channel: {} as Channel,
   songs: [],
-  track: {},
+  track: {} as tSongs,
   favorites: [],
   errors: {} as IErrors,
   // timer stuff

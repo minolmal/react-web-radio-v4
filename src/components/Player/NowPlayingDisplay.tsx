@@ -23,15 +23,15 @@ const NowPlayingDisplay: React.FC = () => {
   }, [playing, startClock, stopClock]);
   return (
     <div className="text-clip push-left">
-      <span>{timeDisplay}</span>
-      {hasChannel() ? (
+      <span className="text-capitalize">{timeDisplay}</span>
+      {hasChannel() && (
         <>
           <span className="text-faded">&nbsp;|&nbsp;</span>
           <span className="fx fx-fade-in fx-delay-1" key={channel.id}>
             {channel.title}
           </span>
         </>
-      ) : null}
+      )}
     </div>
   );
 };

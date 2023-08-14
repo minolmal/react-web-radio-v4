@@ -28,14 +28,14 @@ export interface Channel extends Object {
 }
 
 type Playlist = {
-  // [key: string]: string;
+  [index: string]: string;
   url: string;
   format: string;
   quality: string;
 };
 
 export type tSongs = {
-  [key: string]: string;
+  [index: number]: string;
   title: string;
   artist: string;
   album: string;

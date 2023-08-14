@@ -5,6 +5,7 @@ import soma from "@/util/soma";
 import storage from "@/util/storage";
 import utils from "@/util/utils";
 import audio from "@/util/audio";
+import { Channel, IErrors, tSongs } from "@/interfaces/channelTypes";
 
 let enableDevTools = process.env.NODE_ENV === "production" ? false : true;
 
@@ -100,13 +101,7 @@ const usePlayerStore = create<IStore>()(
         return key && get().errors.hasOwnProperty(key);
       },
       flushErrors: () => {
-        let errors = get().errors;
-        for (const key in errors) {
-          if (Object.prototype.hasOwnProperty.call(errors, key)) {
-            delete errors[key];
-          }
-        }
-        set({ errors: errors }, false, "Flush Errors");
+        set({ errors: {} as IErrors }, false, "Flush Errors");
       },
       setupEvents: () => {
         const { applyRoute, onWaiting, onPlaying, onEnded, onError, onKeyboard } = get();
@@ -127,22 +122,15 @@ const usePlayerStore = create<IStore>()(
       },
       initPlayer: () => {
         setTimeout(() => {
-          // document.querySelector("#_spnr").style.display = "none";
-          // document.querySelector("#player-wrap").style.opacity = "1";
+          document.getElementById("_spinner")!.style.display = "none";
+          document.getElementById("player-wrap")!.style.opacity = "1";
           set({ init: true }, false, "Init Player");
         }, 100);
       },
       resetPlayer: () => {
         get().closeAudio();
         get().flushErrors();
-
-        let _channel = get().channel;
-        for (const key in _channel) {
-          if (Object.prototype.hasOwnProperty.call(_channel, key)) {
-            delete _channel[key];
-          }
-        }
-        set({ channel: _channel, songs: [] }, false, "Reset Player");
+        set({ channel: {} as Channel, songs: [] }, false, "Reset Player");
       },
       tryAgain: () => {
         const { hasError, flushErrors, playChannel, channel } = get();
@@ -255,7 +243,7 @@ const usePlayerStore = create<IStore>()(
       getSongs: (channel, callback) => {
         if (!channel || !channel.id || !channel.songsurl) return;
         if (!get().isCurrentChannel(channel))
-          set({ songs: [], track: {} }, false, "Get Songs - Clear Songs and Track");
+          set({ songs: [], track: {} as tSongs }, false, "Get Songs - Clear Songs and Track");
 
         soma.getSongs(channel, (err, songs) => {
           if (err) return get().setError("songs", err);
