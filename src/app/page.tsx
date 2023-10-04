@@ -92,18 +92,10 @@ export default function Home(): React.ReactNode {
             <section className="player-links text-nowrap">
               <Link
                 className="common-btn text-faded"
-                href="https://github.com/rainner/soma-fm-player"
+                href="https://github.com/minolmal/react-web-radio-v4"
                 title="View on Github"
                 target="_blank">
                 <FaGithub />
-              </Link>
-              &nbsp;
-              <Link
-                className="common-btn text-faded"
-                href="https://codepen.io/rainner"
-                title="Codepen Projects"
-                target="_blank">
-                <FaCodepen />
               </Link>
             </section>
           </footer>
